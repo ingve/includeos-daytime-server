@@ -10,12 +10,3 @@ include_directories(${INCLUDEOS_INSTALL}/libcxx/include
         ${INCLUDEOS_INSTALL}/api
         ${INCLUDEOS_INSTALL}/mod/GSL/include)
 add_library(service OBJECT ${SOURCE_FILES})
-
-#[[
-add_custom_target(Real_make ALL)
-add_custom_command(TARGET Real_make
-        DEPENDS service
-        COMMAND ${CMAKE_MAKE_PROGRAM}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
-]]#
