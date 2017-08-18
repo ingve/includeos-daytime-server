@@ -1,12 +1,35 @@
-cmake_minimum_required(VERSION 3.2.2)
-project(my_includeos_service)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -target i686-elf -mstackrealign -fstack-protector-all -msse3 -O2 -Wall -Wextra -m32 -std=c++14 -D_LIBCPP_HAS_NO_THREADS=1 -D_GNU_SOURCE")
-set(INCLUDEOS_INSTALL $ENV{HOME}/IncludeOS_Install)
-set(SOURCE_FILES service.cpp)
+cmake_minimum_required(VERSION 2.8.9)
 
-include_directories(${INCLUDEOS_INSTALL}/libcxx/include
-        ${INCLUDEOS_INSTALL}/api/sys
-        ${INCLUDEOS_INSTALL}/newlib/include
-        ${INCLUDEOS_INSTALL}/api
-        ${INCLUDEOS_INSTALL}/mod/GSL/include)
-add_library(service OBJECT ${SOURCE_FILES})
+# IncludeOS install location
+if (NOT DEFINED ENV{INCLUDEOS_PREFIX})
+  set(ENV{INCLUDEOS_PREFIX} /usr/local)
+endif()
+
+include($ENV{INCLUDEOS_PREFIX}/includeos/pre.service.cmake)
+
+project (test_http)
+
+# Human-readable name of your service
+set(SERVICE_NAME "IncludeOS Daytime Server")
+
+# Name of your service binary
+set(BINARY       "daytime_server")
+
+# Maximum memory can be hard-coded into the binary
+set(MAX_MEM 128)
+
+
+# Source files to be linked with OS library parts to form bootable image
+set(SOURCES
+  service.cpp # ...add more here
+  )
+
+# DRIVERS / PLUGINS:
+
+set(DRIVERS
+  virtionet   # Virtio networking
+  vmxnet3
+  )
+
+# include service build script
+include($ENV{INCLUDEOS_PREFIX}/includeos/post.service.cmake)
