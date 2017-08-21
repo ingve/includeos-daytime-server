@@ -7,7 +7,7 @@ endif()
 
 include($ENV{INCLUDEOS_PREFIX}/includeos/pre.service.cmake)
 
-project (test_http)
+project (daytime_server)
 
 # Human-readable name of your service
 set(SERVICE_NAME "IncludeOS Daytime Server")
